@@ -46,13 +46,13 @@ export default function Hero() {
       <div className="pointer-events-none absolute left-1/4 top-1/4 h-96 w-96 rounded-full bg-accent-green/5 blur-3xl" />
       <div className="pointer-events-none absolute bottom-1/4 right-1/4 h-96 w-96 rounded-full bg-accent-purple/5 blur-3xl" />
 
-      <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-8 text-center md:flex-row md:text-left">
-        {/* Text */}
+      <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-8 text-center md:flex-row md:items-center md:text-left">
+        {/* Text — largura fixa para não empurrar a foto */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7 }}
-          className="flex-1"
+          className="min-w-0 flex-1 md:max-w-[55%]"
         >
           <motion.p
             initial={{ opacity: 0 }}
@@ -71,7 +71,8 @@ export default function Hero() {
           <p className="mb-4 text-xl font-medium text-text-secondary md:text-2xl">
             {personalInfo.headline}
           </p>
-          <div className="mb-8 h-8 font-mono text-base text-text-secondary md:text-lg">
+          {/* Altura fixa para o typewriter não mexer no layout */}
+          <div className="mb-8 h-12 font-mono text-base text-text-secondary md:text-lg">
             <Typewriter texts={personalInfo.typewriterTexts} />
           </div>
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center md:justify-start">
@@ -90,52 +91,78 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* Photo — efeito "saindo do portal" */}
+        {/* Photo — efeito "saindo do oval" */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
           className="relative flex-shrink-0 h-72 w-72 sm:h-80 sm:w-80 md:h-96 md:w-96 lg:h-[420px] lg:w-[420px]"
         >
-          {/* Círculo sólido de fundo (portal) */}
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[85%] w-[85%] rounded-full bg-gradient-to-br from-[#0d3320] to-[#1a1035]" />
-
-          {/* Borda brilhante do portal */}
+          {/* Oval por baixo — a foto "sai" dele pra cima */}
           <div
-            className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[85%] w-[85%] rounded-full"
+            className="absolute bottom-[2%] left-1/2 -translate-x-1/2 z-[1] w-[90%] h-[55%] rounded-[50%] bg-gradient-to-b from-[#0f2b1e] via-[#112233] to-[#18102a]"
             style={{
-              background: 'conic-gradient(from 180deg, #00ff8855, #8b5cf655, #00ff8833, #8b5cf655, #00ff8855)',
-              mask: 'radial-gradient(circle, transparent 68%, black 70%, black 72%, transparent 74%)',
-              WebkitMask: 'radial-gradient(circle, transparent 68%, black 70%, black 72%, transparent 74%)',
+              boxShadow: '0 0 80px rgba(0,255,136,0.12), 0 0 40px rgba(139,92,246,0.08), inset 0 -10px 30px rgba(0,0,0,0.3)',
             }}
           />
 
-          {/* Glow atrás do portal */}
-          <div className="absolute bottom-[5%] left-1/2 -translate-x-1/2 h-[70%] w-[70%] rounded-full bg-accent-green/10 blur-3xl" />
+          {/* Borda brilhante do oval */}
+          <div
+            className="absolute bottom-[2%] left-1/2 -translate-x-1/2 z-[2] w-[90%] h-[55%] rounded-[50%]"
+            style={{
+              background: 'conic-gradient(from 200deg, #00ff8866, #8b5cf644, #00ff8822, #8b5cf644, #00ff8866)',
+              mask: 'radial-gradient(ellipse, transparent 85%, black 88%, black 92%, transparent 95%)',
+              WebkitMask: 'radial-gradient(ellipse, transparent 85%, black 88%, black 92%, transparent 95%)',
+            }}
+          />
 
-          {/* Sparkle ✦ canto superior direito */}
+          {/* Glow difuso embaixo */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-0 h-[40%] w-[80%] rounded-[50%] bg-accent-green/8 blur-2xl" />
+
+          {/* Foto por cima do oval */}
+          <Image
+            src="/carlos.png"
+            alt={personalInfo.name}
+            width={420}
+            height={420}
+            className="absolute inset-0 z-[5] h-full w-full object-contain"
+            style={{ objectPosition: 'center bottom' }}
+            priority
+          />
+
+          {/* Metade inferior do oval que fica NA FRENTE da foto (corte) */}
+          <div
+            className="absolute bottom-[2%] left-1/2 -translate-x-1/2 z-[6] w-[90%] h-[55%] rounded-[50%] overflow-hidden"
+            style={{
+              clipPath: 'inset(52% 0 0 0)',
+              background: 'linear-gradient(to bottom, #0f2b1e, #18102a)',
+              boxShadow: 'inset 0 5px 15px rgba(0,255,136,0.05)',
+            }}
+          />
+
+          {/* Sparkle ✦ superior direito */}
           <motion.div
             animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }}
             transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
-            className="absolute right-[5%] top-[10%] z-20 text-accent-green text-xl"
+            className="absolute right-[5%] top-[8%] z-20 text-xl text-accent-green"
           >
             ✦
           </motion.div>
 
-          {/* Sparkle ✦ canto esquerdo */}
+          {/* Sparkle ✦ esquerdo */}
           <motion.div
             animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }}
             transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut', delay: 0.5 }}
-            className="absolute left-[2%] top-[30%] z-20 text-accent-purple text-sm"
+            className="absolute left-[2%] top-[25%] z-20 text-sm text-accent-purple"
           >
             ✦
           </motion.div>
 
-          {/* Sparkle ✦ inferior direita */}
+          {/* Sparkle ✦ direita meio */}
           <motion.div
             animate={{ scale: [1, 1.2, 1], opacity: [0.6, 1, 0.6] }}
             transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut', delay: 1 }}
-            className="absolute right-[0%] bottom-[35%] z-20 text-accent-green/80 text-xs"
+            className="absolute right-[0%] top-[40%] z-20 text-xs text-accent-green/80"
           >
             ✦
           </motion.div>
@@ -144,25 +171,14 @@ export default function Hero() {
           <motion.div
             animate={{ y: [-6, 6, -6] }}
             transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
-            className="absolute left-[8%] bottom-[20%] z-20 h-2 w-2 rounded-full bg-accent-purple/60"
+            className="absolute left-[6%] top-[45%] z-20 h-2 w-2 rounded-full bg-accent-purple/60"
           />
 
           {/* Dot flutuante 2 */}
           <motion.div
             animate={{ y: [4, -4, 4] }}
             transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}
-            className="absolute right-[10%] top-[25%] z-20 h-1.5 w-1.5 rounded-full bg-accent-green/50"
-          />
-
-          {/* Foto por cima — "saindo" do portal */}
-          <Image
-            src="/carlos.png"
-            alt={personalInfo.name}
-            width={420}
-            height={420}
-            className="absolute inset-0 z-10 h-full w-full object-contain"
-            style={{ objectPosition: 'center bottom' }}
-            priority
+            className="absolute right-[8%] top-[20%] z-20 h-1.5 w-1.5 rounded-full bg-accent-green/50"
           />
         </motion.div>
       </div>
