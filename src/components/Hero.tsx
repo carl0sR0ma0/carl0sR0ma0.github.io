@@ -97,14 +97,12 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.3 }}
           className="relative flex-shrink-0"
         >
-          {/* Glow atrás da foto */}
-          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-accent-green/20 to-accent-purple/20 blur-2xl" />
           <Image
-            src="/foto-placeholder.svg"
+            src="/carlos.png"
             alt={personalInfo.name}
             width={320}
             height={320}
-            className="relative z-10 h-64 w-64 object-contain drop-shadow-2xl md:h-80 md:w-80"
+            className="relative z-10 h-64 w-64 object-contain md:h-80 md:w-80"
             priority
           />
         </motion.div>

@@ -25,7 +25,7 @@ export default function Projects() {
                 onClick={() => setSelectedProject(project)}
                 whileHover={{ scale: 1.03, y: -4 }}
                 transition={{ type: 'spring', stiffness: 300 }}
-                className="group block h-full w-full rounded-xl border border-white/5 bg-bg-card p-6 text-left transition-all hover:border-accent-green/30 hover:glow-green"
+                className="group block h-full w-full cursor-pointer rounded-xl border border-white/5 bg-bg-card p-6 text-left transition-all hover:border-accent-green/30 hover:glow-green"
               >
                 {/* Header */}
                 <div className="mb-4 flex items-center justify-between">

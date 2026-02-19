@@ -125,9 +125,9 @@ export const projects: Project[] = [
       'Deploy automático com CI/CD (GitHub Actions)',
     ],
     screenshots: [
-      '/projects/comandera/tela-1.png',
-      '/projects/comandera/tela-2.png',
-      '/projects/comandera/tela-3.png',
+      'https://picsum.photos/seed/comandera1/800/450',
+      'https://picsum.photos/seed/comandera2/800/450',
+      'https://picsum.photos/seed/comandera3/800/450',
     ],
   },
   {
@@ -148,9 +148,9 @@ export const projects: Project[] = [
       '39 endpoints cobrindo Auth, Usuários, Setores, Pedidos e Integrações',
     ],
     screenshots: [
-      '/projects/fluxtrack/tela-1.png',
-      '/projects/fluxtrack/tela-2.png',
-      '/projects/fluxtrack/tela-3.png',
+      'https://picsum.photos/seed/fluxtrack1/800/450',
+      'https://picsum.photos/seed/fluxtrack2/800/450',
+      'https://picsum.photos/seed/fluxtrack3/800/450',
     ],
   },
   {
@@ -169,8 +169,8 @@ export const projects: Project[] = [
       'Relatórios e dashboards analíticos',
     ],
     screenshots: [
-      '/projects/evalync/tela-1.png',
-      '/projects/evalync/tela-2.png',
+      'https://picsum.photos/seed/evalync1/800/450',
+      'https://picsum.photos/seed/evalync2/800/450',
     ],
   },
   {
@@ -191,9 +191,9 @@ export const projects: Project[] = [
       'Endpoint público de consulta por protocolo',
     ],
     screenshots: [
-      '/projects/controle-demandas/tela-1.png',
-      '/projects/controle-demandas/tela-2.png',
-      '/projects/controle-demandas/tela-3.png',
+      'https://picsum.photos/seed/demandas1/800/450',
+      'https://picsum.photos/seed/demandas2/800/450',
+      'https://picsum.photos/seed/demandas3/800/450',
     ],
   },
   {
@@ -214,8 +214,8 @@ export const projects: Project[] = [
       'Clean Architecture com camadas separadas',
     ],
     screenshots: [
-      '/projects/odontosoft/tela-1.png',
-      '/projects/odontosoft/tela-2.png',
+      'https://picsum.photos/seed/odonto1/800/450',
+      'https://picsum.photos/seed/odonto2/800/450',
     ],
   },
   {
@@ -233,7 +233,7 @@ export const projects: Project[] = [
       'Interface administrativa',
     ],
     screenshots: [
-      '/projects/school-management/tela-1.png',
+      'https://picsum.photos/seed/school1/800/450',
     ],
   },
   {
@@ -251,7 +251,7 @@ export const projects: Project[] = [
       'Aplicação prática de Design Patterns',
     ],
     screenshots: [
-      '/projects/occurence-trigger/tela-1.png',
+      'https://picsum.photos/seed/observer1/800/450',
     ],
   },
 ]
