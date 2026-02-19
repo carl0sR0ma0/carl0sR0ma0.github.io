@@ -100,9 +100,9 @@ export default function Hero() {
           <Image
             src="/carlos.png"
             alt={personalInfo.name}
-            width={320}
-            height={320}
-            className="relative z-10 h-64 w-64 object-contain md:h-80 md:w-80"
+            width={420}
+            height={420}
+            className="relative z-10 h-72 w-72 object-contain sm:h-80 sm:w-80 md:h-96 md:w-96 lg:h-[420px] lg:w-[420px]"
             priority
           />
         </motion.div>
