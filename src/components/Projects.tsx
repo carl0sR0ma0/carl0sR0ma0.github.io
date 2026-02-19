@@ -1,11 +1,15 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { projects } from '@/data/portfolio-data'
+import { projects, type Project } from '@/data/portfolio-data'
 import AnimatedSection from './AnimatedSection'
 import SectionTitle from './SectionTitle'
+import ProjectModal from './ProjectModal'
 
 export default function Projects() {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null)
+
   return (
     <section id="projetos" className="bg-bg-secondary px-6 py-24">
       <div className="mx-auto max-w-6xl">
@@ -16,14 +20,12 @@ export default function Projects() {
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, i) => (
-            <AnimatedSection key={i} delay={i * 0.1}>
-              <motion.a
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
+            <AnimatedSection key={project.id} delay={i * 0.1}>
+              <motion.button
+                onClick={() => setSelectedProject(project)}
                 whileHover={{ scale: 1.03, y: -4 }}
                 transition={{ type: 'spring', stiffness: 300 }}
-                className="group block h-full rounded-xl border border-white/5 bg-bg-card p-6 transition-all hover:border-accent-green/30 hover:glow-green"
+                className="group block h-full w-full rounded-xl border border-white/5 bg-bg-card p-6 text-left transition-all hover:border-accent-green/30 hover:glow-green"
               >
                 {/* Header */}
                 <div className="mb-4 flex items-center justify-between">
@@ -46,21 +48,9 @@ export default function Projects() {
                       strokeLinecap="round"
                     />
                   </svg>
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    className="text-text-secondary transition-colors group-hover:text-accent-green"
-                  >
-                    <path
-                      d="M7 17L17 7M17 7H7M17 7V17"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                  <span className="text-xs text-text-secondary transition-colors group-hover:text-accent-green">
+                    Ver detalhes →
+                  </span>
                 </div>
 
                 <h3 className="mb-2 text-lg font-bold text-text-primary group-hover:text-accent-green">
@@ -72,7 +62,7 @@ export default function Projects() {
 
                 {/* Tech tags */}
                 <div className="flex flex-wrap gap-2">
-                  {project.techs.map((tech) => (
+                  {project.techs.slice(0, 4).map((tech) => (
                     <span
                       key={tech}
                       className="rounded-full border border-white/10 bg-bg-primary px-2.5 py-0.5 font-mono text-xs text-text-secondary"
@@ -80,6 +70,11 @@ export default function Projects() {
                       {tech}
                     </span>
                   ))}
+                  {project.techs.length > 4 && (
+                    <span className="rounded-full border border-white/10 bg-bg-primary px-2.5 py-0.5 font-mono text-xs text-text-secondary">
+                      +{project.techs.length - 4}
+                    </span>
+                  )}
                 </div>
 
                 {project.featured && (
@@ -87,11 +82,16 @@ export default function Projects() {
                     Destaque
                   </div>
                 )}
-              </motion.a>
+              </motion.button>
             </AnimatedSection>
           ))}
         </div>
       </div>
+
+      <ProjectModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
     </section>
   )
 }

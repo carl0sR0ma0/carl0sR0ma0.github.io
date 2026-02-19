@@ -90,23 +90,23 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* Photo */}
+        {/* Photo — PNG recortado, sem moldura */}
         <motion.div
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7, delay: 0.3 }}
-          className="flex-shrink-0"
+          className="relative flex-shrink-0"
         >
-          <div className="gradient-border h-64 w-64 overflow-hidden rounded-full md:h-80 md:w-80">
-            <Image
-              src="/foto-placeholder.svg"
-              alt={personalInfo.name}
-              width={320}
-              height={320}
-              className="h-full w-full object-cover"
-              priority
-            />
-          </div>
+          {/* Glow atrás da foto */}
+          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-accent-green/20 to-accent-purple/20 blur-2xl" />
+          <Image
+            src="/foto-placeholder.svg"
+            alt={personalInfo.name}
+            width={320}
+            height={320}
+            className="relative z-10 h-64 w-64 object-contain drop-shadow-2xl md:h-80 md:w-80"
+            priority
+          />
         </motion.div>
       </div>
 

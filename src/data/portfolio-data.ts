@@ -3,12 +3,12 @@ export const personalInfo = {
   initials: 'CR',
   headline: 'Desenvolvedor Full Stack | Backend .NET',
   typewriterTexts: [
-    'Construo sistemas robustos para o agronegócio',
+    'Construo sistemas robustos para o seu negócio',
     '4+ anos transformando ideias em código',
     'Clean Architecture, DDD & SOLID',
   ],
   email: 'cvpromao@gmail.com',
-  linkedin: 'https://www.linkedin.com/in/carlos-romao-dev/',
+  linkedin: 'https://www.linkedin.com/in/carlos-rom%C3%A3o-22ba15bb/',
   github: 'https://github.com/carl0sR0ma0',
   location: 'Brasil',
 }
@@ -94,51 +94,165 @@ export const experiences: Experience[] = [
 ]
 
 export interface Project {
+  id: string
   title: string
   description: string
+  longDescription: string
   techs: string[]
   github: string
   featured?: boolean
+  features: string[]
+  screenshots: string[]
 }
 
 export const projects: Project[] = [
   {
+    id: 'comandera',
     title: 'Comandera',
     description:
-      'Sistema completo de gestão de pedidos para food service com app mobile e backend robusto.',
-    techs: ['React Native', 'Expo', '.NET 9', 'PostgreSQL', 'Zustand'],
+      'Sistema de gestão de pedidos para pequenos comércios de alimentação — espetarias, lanchonetes, pizzarias e similares.',
+    longDescription:
+      'Sistema completo de gestão de pedidos com app mobile e backend robusto. Permite gerenciar mesas, criar pedidos, controlar cardápio com categorias e produtos, aplicar promoções automáticas, gerar relatórios de vendas e muito mais. Design pensado para agilidade no atendimento.',
+    techs: ['React Native', 'Expo', '.NET 9', 'PostgreSQL', 'Zustand', 'JWT'],
     github: 'https://github.com/carl0sR0ma0/Comandera',
     featured: true,
+    features: [
+      'Gestão de mesas com status em tempo real',
+      'Cardápio com categorias e produtos',
+      'Promoções automáticas com combos multi-categoria',
+      'Relatórios de vendas e dashboard',
+      'Autenticação JWT com controle de acesso',
+      'Deploy automático com CI/CD (GitHub Actions)',
+    ],
+    screenshots: [
+      '/projects/comandera/tela-1.png',
+      '/projects/comandera/tela-2.png',
+      '/projects/comandera/tela-3.png',
+    ],
   },
   {
+    id: 'fluxtrack',
+    title: 'FluxTrack',
+    description:
+      'Plataforma de rastreamento logístico industrial que orquestra o fluxo de itens entre setores com monitoramento em tempo real.',
+    longDescription:
+      'Sistema de rastreamento logístico que monitora cada etapa do processo produtivo em tempo real, reduzindo retrabalho operacional e expondo KPIs confiáveis. Integra pedidos, leituras e integrações (Bling v3) em um único lugar, com sistema de permissões granular e processamento de leituras em lote.',
+    techs: ['.NET 8', 'PostgreSQL', 'Next.js', 'React Native', 'Expo', 'Docker'],
+    github: 'https://github.com/carl0sR0ma0/FluxTrack',
+    features: [
+      'Rastreamento de itens entre setores em tempo real',
+      'Sistema de permissões granular com perfis customizados',
+      'Integração com Bling v3 (catálogo, pedidos, NF-e)',
+      'Processamento de leituras em lote com idempotência',
+      'Timeline de pedidos por setor e item',
+      '39 endpoints cobrindo Auth, Usuários, Setores, Pedidos e Integrações',
+    ],
+    screenshots: [
+      '/projects/fluxtrack/tela-1.png',
+      '/projects/fluxtrack/tela-2.png',
+      '/projects/fluxtrack/tela-3.png',
+    ],
+  },
+  {
+    id: 'evalync',
+    title: 'Evalync',
+    description:
+      'Sistema de avaliação e sincronização de dados com foco em produtividade e gestão de equipes.',
+    longDescription:
+      'Plataforma de avaliação e sincronização projetada para otimizar a gestão de desempenho e produtividade. Oferece ferramentas para criar e gerenciar avaliações, acompanhar indicadores e sincronizar dados entre equipes de forma eficiente.',
+    techs: ['C#', '.NET 8', 'PostgreSQL', 'TypeScript'],
+    github: 'https://github.com/carl0sR0ma0/EVALYNC',
+    features: [
+      'Criação e gestão de avaliações',
+      'Acompanhamento de indicadores de desempenho',
+      'Sincronização de dados entre equipes',
+      'Relatórios e dashboards analíticos',
+    ],
+    screenshots: [
+      '/projects/evalync/tela-1.png',
+      '/projects/evalync/tela-2.png',
+    ],
+  },
+  {
+    id: 'controle-demandas',
+    title: 'Controle de Demandas',
+    description:
+      'Sistema de gestão de demandas com fluxo unificado de cadastro, triagem e acompanhamento com segurança reforçada.',
+    longDescription:
+      'Aplicação full-stack para gestão interna de demandas com workflow completo — do cadastro à conclusão. Conta com autenticação JWT, criptografia de senhas com Argon2id + RSA, bloqueio temporário após tentativas falhas, e observabilidade completa com Prometheus, Grafana e Loki para métricas e logs.',
+    techs: ['.NET 8', 'Next.js', 'PostgreSQL', 'Docker', 'Prometheus', 'Grafana'],
+    github: 'https://github.com/carl0sR0ma0/ControleDemandas',
+    features: [
+      'Fluxo unificado: cadastro → triagem → acompanhamento',
+      'Segurança reforçada: Argon2id + RSA + bloqueio por tentativas',
+      'Observabilidade: Prometheus + Grafana + Loki',
+      'Health checks e respostas padronizadas (problem+json)',
+      'Validação com FluentValidation',
+      'Endpoint público de consulta por protocolo',
+    ],
+    screenshots: [
+      '/projects/controle-demandas/tela-1.png',
+      '/projects/controle-demandas/tela-2.png',
+      '/projects/controle-demandas/tela-3.png',
+    ],
+  },
+  {
+    id: 'odontosoft',
+    title: 'OdontoSoft',
+    description:
+      'Sistema de gestão para clínicas odontológicas com odontograma interativo e controle de pacientes.',
+    longDescription:
+      'Sistema completo para gestão de clínicas odontológicas. Inclui cadastro de pacientes, avaliações com odontograma interativo (mapa dental visual), planejamento de tratamentos, agendamento e dashboard administrativo. Arquitetura limpa com camadas bem definidas.',
+    techs: ['.NET 8', 'MongoDB', 'React', 'TypeScript', 'Tailwind', 'Vite'],
+    github: 'https://github.com/carl0sR0ma0/OdontoSoft',
+    features: [
+      'Odontograma interativo (mapa dental visual)',
+      'Gestão de pacientes e prontuários',
+      'Planejamento e acompanhamento de tratamentos',
+      'Dashboard administrativo',
+      'Autenticação e controle de acesso',
+      'Clean Architecture com camadas separadas',
+    ],
+    screenshots: [
+      '/projects/odontosoft/tela-1.png',
+      '/projects/odontosoft/tela-2.png',
+    ],
+  },
+  {
+    id: 'school-management',
     title: 'SchoolManagement',
     description: 'Sistema de gerenciamento escolar completo com CRUD de alunos, professores e turmas.',
-    techs: ['C#', '.NET'],
+    longDescription:
+      'Aplicação web para gerenciamento escolar que permite o cadastro e controle de alunos, professores e turmas. Interface administrativa para acompanhamento acadêmico com operações CRUD completas e relatórios.',
+    techs: ['C#', '.NET', 'Entity Framework'],
     github: 'https://github.com/carl0sR0ma0/SchoolManagement',
+    features: [
+      'CRUD completo de alunos, professores e turmas',
+      'Controle de matrículas e notas',
+      'Relatórios acadêmicos',
+      'Interface administrativa',
+    ],
+    screenshots: [
+      '/projects/school-management/tela-1.png',
+    ],
   },
   {
-    title: 'NovaEra',
-    description: 'Sistema de gestão acadêmica desenvolvido em equipe de 6 pessoas.',
-    techs: ['PHP', 'MySQL'],
-    github: 'https://github.com/carl0sR0ma0/NovaEra',
-  },
-  {
-    title: 'FC Tube',
-    description: 'Plataforma de streaming desenvolvida durante Imersão Full Cycle.',
-    techs: ['Django', 'Go', 'RabbitMQ', 'Next.js'],
-    github: 'https://github.com/carl0sR0ma0/FCTube',
-  },
-  {
-    title: 'SistemaOdonto',
-    description: 'Sistema para clínica odontológica com gestão de pacientes e consultas.',
-    techs: ['C#', 'Entity Framework'],
-    github: 'https://github.com/carl0sR0ma0/SistemaOdonto',
-  },
-  {
+    id: 'occurence-trigger',
     title: 'OccurenceTrigger',
-    description: 'Implementação do Design Pattern Observer aplicado a ocorrências (PGDI).',
-    techs: ['C#', '.NET'],
+    description: 'Implementação do Design Pattern Observer aplicado ao módulo de gatilhos do PGDI.',
+    longDescription:
+      'Projeto que aplica o padrão de projeto Observer para o módulo de gatilhos de ocorrências. Demonstra a implementação prática de design patterns em C#/.NET, com foco em desacoplamento e reatividade a eventos do sistema.',
+    techs: ['C#', '.NET', 'Observer Pattern'],
     github: 'https://github.com/carl0sR0ma0/OccurenceTrigger',
+    features: [
+      'Implementação do padrão Observer',
+      'Sistema de gatilhos reativo a eventos',
+      'Desacoplamento entre publicadores e assinantes',
+      'Aplicação prática de Design Patterns',
+    ],
+    screenshots: [
+      '/projects/occurence-trigger/tela-1.png',
+    ],
   },
 ]
 
@@ -225,8 +339,8 @@ export const certifications: CertificationGroup[] = [
     certs: ['Angular 9 — Essencial'],
   },
   {
-    platform: 'Hackathons',
-    certs: ['HackaTrouble 2020 — Participação', 'HackaTrouble 2020 — Menção Honrosa'],
+    platform: 'Hackathon',
+    certs: ['HackaTrouble 2020'],
   },
 ]
 
