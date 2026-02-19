@@ -80,8 +80,9 @@ export default function Contact() {
           {/* Form */}
           <AnimatedSection delay={0.2}>
             <form
-              action={`https://formspree.io/f/placeholder`}
+              action={`mailto:${personalInfo.email}`}
               method="POST"
+              encType="text/plain"
               className="space-y-4"
             >
               <div>

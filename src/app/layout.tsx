@@ -14,6 +14,9 @@ export const metadata: Metadata = {
     'React Native',
     'Vue.js',
   ],
+  icons: {
+    icon: '/favicon.svg',
+  },
   openGraph: {
     title: 'Carlos Romão — Desenvolvedor Full Stack',
     description:

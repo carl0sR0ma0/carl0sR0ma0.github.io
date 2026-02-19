@@ -98,9 +98,12 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="relative flex-shrink-0 h-72 w-72 sm:h-80 sm:w-80 md:h-96 md:w-96 lg:h-[420px] lg:w-[420px]"
         >
-          {/* Oval por baixo — a foto "sai" dele pra cima */}
+          {/* Glow difuso embaixo */}
+          <div className="absolute bottom-[-5%] left-1/2 -translate-x-1/2 z-0 h-[40%] w-[80%] rounded-[50%] bg-accent-green/8 blur-2xl" />
+
+          {/* Oval de fundo (portal) */}
           <div
-            className="absolute bottom-[2%] left-1/2 -translate-x-1/2 z-[1] w-[90%] h-[55%] rounded-[50%] bg-gradient-to-b from-[#0f2b1e] via-[#112233] to-[#18102a]"
+            className="absolute bottom-[-8%] left-1/2 -translate-x-1/2 z-[1] w-[95%] h-[50%] rounded-[50%] bg-gradient-to-b from-[#0f2b1e] via-[#112233] to-[#18102a]"
             style={{
               boxShadow: '0 0 80px rgba(0,255,136,0.12), 0 0 40px rgba(139,92,246,0.08), inset 0 -10px 30px rgba(0,0,0,0.3)',
             }}
@@ -108,7 +111,7 @@ export default function Hero() {
 
           {/* Borda brilhante do oval */}
           <div
-            className="absolute bottom-[2%] left-1/2 -translate-x-1/2 z-[2] w-[90%] h-[55%] rounded-[50%]"
+            className="absolute bottom-[-8%] left-1/2 -translate-x-1/2 z-[2] w-[95%] h-[50%] rounded-[50%]"
             style={{
               background: 'conic-gradient(from 200deg, #00ff8866, #8b5cf644, #00ff8822, #8b5cf644, #00ff8866)',
               mask: 'radial-gradient(ellipse, transparent 85%, black 88%, black 92%, transparent 95%)',
@@ -116,27 +119,22 @@ export default function Hero() {
             }}
           />
 
-          {/* Glow difuso embaixo */}
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-0 h-[40%] w-[80%] rounded-[50%] bg-accent-green/8 blur-2xl" />
-
-          {/* Foto por cima do oval */}
+          {/* Foto — sobe um pouco pra "sair" do oval */}
           <Image
             src="/carlos.png"
             alt={personalInfo.name}
             width={420}
             height={420}
-            className="absolute inset-0 z-[5] h-full w-full object-contain"
+            className="absolute left-0 right-0 bottom-[8%] z-[5] h-full w-full object-contain"
             style={{ objectPosition: 'center bottom' }}
             priority
           />
 
-          {/* Metade inferior do oval que fica NA FRENTE da foto (corte) */}
+          {/* Fade suave na base da foto (disfarça a borda) */}
           <div
-            className="absolute bottom-[2%] left-1/2 -translate-x-1/2 z-[6] w-[90%] h-[55%] rounded-[50%] overflow-hidden"
+            className="absolute bottom-0 left-0 right-0 z-[6] h-[25%]"
             style={{
-              clipPath: 'inset(52% 0 0 0)',
-              background: 'linear-gradient(to bottom, #0f2b1e, #18102a)',
-              boxShadow: 'inset 0 5px 15px rgba(0,255,136,0.05)',
+              background: 'linear-gradient(to top, #0a0a0a 5%, transparent 100%)',
             }}
           />
 
