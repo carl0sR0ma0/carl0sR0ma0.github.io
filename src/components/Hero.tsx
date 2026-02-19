@@ -90,19 +90,78 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* Photo — PNG recortado, sem moldura */}
+        {/* Photo — efeito "saindo do portal" */}
         <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          className="relative flex-shrink-0"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="relative flex-shrink-0 h-72 w-72 sm:h-80 sm:w-80 md:h-96 md:w-96 lg:h-[420px] lg:w-[420px]"
         >
+          {/* Círculo sólido de fundo (portal) */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[85%] w-[85%] rounded-full bg-gradient-to-br from-[#0d3320] to-[#1a1035]" />
+
+          {/* Borda brilhante do portal */}
+          <div
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[85%] w-[85%] rounded-full"
+            style={{
+              background: 'conic-gradient(from 180deg, #00ff8855, #8b5cf655, #00ff8833, #8b5cf655, #00ff8855)',
+              mask: 'radial-gradient(circle, transparent 68%, black 70%, black 72%, transparent 74%)',
+              WebkitMask: 'radial-gradient(circle, transparent 68%, black 70%, black 72%, transparent 74%)',
+            }}
+          />
+
+          {/* Glow atrás do portal */}
+          <div className="absolute bottom-[5%] left-1/2 -translate-x-1/2 h-[70%] w-[70%] rounded-full bg-accent-green/10 blur-3xl" />
+
+          {/* Sparkle ✦ canto superior direito */}
+          <motion.div
+            animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }}
+            transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+            className="absolute right-[5%] top-[10%] z-20 text-accent-green text-xl"
+          >
+            ✦
+          </motion.div>
+
+          {/* Sparkle ✦ canto esquerdo */}
+          <motion.div
+            animate={{ scale: [1, 1.4, 1], opacity: [0.5, 1, 0.5] }}
+            transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut', delay: 0.5 }}
+            className="absolute left-[2%] top-[30%] z-20 text-accent-purple text-sm"
+          >
+            ✦
+          </motion.div>
+
+          {/* Sparkle ✦ inferior direita */}
+          <motion.div
+            animate={{ scale: [1, 1.2, 1], opacity: [0.6, 1, 0.6] }}
+            transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut', delay: 1 }}
+            className="absolute right-[0%] bottom-[35%] z-20 text-accent-green/80 text-xs"
+          >
+            ✦
+          </motion.div>
+
+          {/* Dot flutuante */}
+          <motion.div
+            animate={{ y: [-6, 6, -6] }}
+            transition={{ repeat: Infinity, duration: 3, ease: 'easeInOut' }}
+            className="absolute left-[8%] bottom-[20%] z-20 h-2 w-2 rounded-full bg-accent-purple/60"
+          />
+
+          {/* Dot flutuante 2 */}
+          <motion.div
+            animate={{ y: [4, -4, 4] }}
+            transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}
+            className="absolute right-[10%] top-[25%] z-20 h-1.5 w-1.5 rounded-full bg-accent-green/50"
+          />
+
+          {/* Foto por cima — "saindo" do portal */}
           <Image
             src="/carlos.png"
             alt={personalInfo.name}
             width={420}
             height={420}
-            className="relative z-10 h-72 w-72 object-contain sm:h-80 sm:w-80 md:h-96 md:w-96 lg:h-[420px] lg:w-[420px]"
+            className="absolute inset-0 z-10 h-full w-full object-contain"
+            style={{ objectPosition: 'center bottom' }}
             priority
           />
         </motion.div>
