@@ -119,24 +119,24 @@ export default function Hero() {
             }}
           />
 
-          {/* Foto — sobe um pouco pra "sair" do oval */}
-          <Image
-            src="/carlos.png"
-            alt={personalInfo.name}
-            width={420}
-            height={420}
-            className="absolute left-0 right-0 bottom-[8%] z-[5] h-full w-full object-contain"
-            style={{ objectPosition: 'center bottom' }}
-            priority
-          />
-
-          {/* Fade suave na base da foto (disfarça a borda) */}
+          {/* Foto — mask radial pra ficar natural (sem bordas quadradas) */}
           <div
-            className="absolute bottom-0 left-0 right-0 z-[6] h-[25%]"
+            className="absolute left-0 right-0 bottom-[8%] z-[5] h-full w-full"
             style={{
-              background: 'linear-gradient(to top, #0a0a0a 5%, transparent 100%)',
+              mask: 'radial-gradient(ellipse 70% 80% at 50% 40%, black 50%, transparent 100%)',
+              WebkitMask: 'radial-gradient(ellipse 70% 80% at 50% 40%, black 50%, transparent 100%)',
             }}
-          />
+          >
+            <Image
+              src="/carlos.png"
+              alt={personalInfo.name}
+              width={420}
+              height={420}
+              className="h-full w-full object-contain"
+              style={{ objectPosition: 'center bottom' }}
+              priority
+            />
+          </div>
 
           {/* Sparkle ✦ superior direito */}
           <motion.div
