@@ -101,8 +101,12 @@ export interface Project {
   techs: string[]
   github: string
   featured?: boolean
+  isPrivate?: boolean
+  isMobile?: boolean
+  isWeb?: boolean
   features: string[]
   screenshots: string[]
+  webScreenshots?: string[]
 }
 
 export const projects: Project[] = [
@@ -116,6 +120,8 @@ export const projects: Project[] = [
     techs: ['React Native', 'Expo', '.NET 9', 'PostgreSQL', 'Zustand', 'JWT'],
     github: 'https://github.com/carl0sR0ma0/Comandera',
     featured: true,
+    isPrivate: true,
+    isMobile: true,
     features: [
       'Gestão de mesas com status em tempo real',
       'Cardápio com categorias e produtos',
@@ -125,9 +131,31 @@ export const projects: Project[] = [
       'Deploy automático com CI/CD (GitHub Actions)',
     ],
     screenshots: [
-      'https://picsum.photos/seed/comandera1/800/450',
-      'https://picsum.photos/seed/comandera2/800/450',
-      'https://picsum.photos/seed/comandera3/800/450',
+      '/projects/comandera-logo.png',
+    ],
+  },
+  {
+    id: 'aura',
+    title: 'Aura',
+    description:
+      'Sistema completo de gestão de vendas e programa de fidelidade para confeitaria artesanal — controle de estoque, produção e clientes.',
+    longDescription:
+      'Sistema desenvolvido para automatizar operações de confeitarias artesanais. Oferece controle total de vendas, estoque com rastreamento de validade, produção em lote com consumo automático de insumos, gestão de clientes com programa de fidelidade (a cada 10 compras, ganha um brinde), presente de aniversário, contas a receber, relatórios e dashboard com métricas em tempo real. Personalização com 8 paletas de cores e tema dark/light.',
+    techs: ['React Native', 'Expo', '.NET 9', 'PostgreSQL', 'Zustand', 'JWT', 'Carter'],
+    github: 'https://github.com/carl0sR0ma0/Aura',
+    isPrivate: true,
+    isMobile: true,
+    features: [
+      'Programa de fidelidade — 10 compras = brinde automático',
+      'Presente de aniversário para clientes',
+      'Controle de estoque com alertas de vencimento',
+      'Produção em lote com consumo automático de insumos',
+      'Dashboard com métricas em tempo real',
+      '8 paletas de cores e tema dark/light',
+      'CI/CD com GitHub Actions (Docker + EAS)',
+    ],
+    screenshots: [
+      '/projects/aura-logo.png',
     ],
   },
   {
@@ -139,6 +167,8 @@ export const projects: Project[] = [
       'Sistema de rastreamento logístico que monitora cada etapa do processo produtivo em tempo real, reduzindo retrabalho operacional e expondo KPIs confiáveis. Integra pedidos, leituras e integrações (Bling v3) em um único lugar, com sistema de permissões granular e processamento de leituras em lote.',
     techs: ['.NET 8', 'PostgreSQL', 'Next.js', 'React Native', 'Expo', 'Docker'],
     github: 'https://github.com/carl0sR0ma0/FluxTrack',
+    isPrivate: true,
+    isMobile: true,
     features: [
       'Rastreamento de itens entre setores em tempo real',
       'Sistema de permissões granular com perfis customizados',
@@ -148,9 +178,10 @@ export const projects: Project[] = [
       '39 endpoints cobrindo Auth, Usuários, Setores, Pedidos e Integrações',
     ],
     screenshots: [
-      'https://picsum.photos/seed/fluxtrack1/800/450',
-      'https://picsum.photos/seed/fluxtrack2/800/450',
-      'https://picsum.photos/seed/fluxtrack3/800/450',
+      '/projects/fluxtrack-logo.png',
+    ],
+    webScreenshots: [
+      '/projects/fluxtrack-name.png',
     ],
   },
   {
@@ -162,16 +193,15 @@ export const projects: Project[] = [
       'Plataforma de avaliação e sincronização projetada para otimizar a gestão de desempenho e produtividade. Oferece ferramentas para criar e gerenciar avaliações, acompanhar indicadores e sincronizar dados entre equipes de forma eficiente.',
     techs: ['C#', '.NET 8', 'PostgreSQL', 'TypeScript'],
     github: 'https://github.com/carl0sR0ma0/EVALYNC',
+    isPrivate: true,
+    isWeb: true,
     features: [
       'Criação e gestão de avaliações',
       'Acompanhamento de indicadores de desempenho',
       'Sincronização de dados entre equipes',
       'Relatórios e dashboards analíticos',
     ],
-    screenshots: [
-      'https://picsum.photos/seed/evalync1/800/450',
-      'https://picsum.photos/seed/evalync2/800/450',
-    ],
+    screenshots: [],
   },
   {
     id: 'controle-demandas',
@@ -182,6 +212,8 @@ export const projects: Project[] = [
       'Aplicação full-stack para gestão interna de demandas com workflow completo — do cadastro à conclusão. Conta com autenticação JWT, criptografia de senhas com Argon2id + RSA, bloqueio temporário após tentativas falhas, e observabilidade completa com Prometheus, Grafana e Loki para métricas e logs.',
     techs: ['.NET 8', 'Next.js', 'PostgreSQL', 'Docker', 'Prometheus', 'Grafana'],
     github: 'https://github.com/carl0sR0ma0/ControleDemandas',
+    isPrivate: true,
+    isWeb: true,
     features: [
       'Fluxo unificado: cadastro → triagem → acompanhamento',
       'Segurança reforçada: Argon2id + RSA + bloqueio por tentativas',
@@ -191,9 +223,7 @@ export const projects: Project[] = [
       'Endpoint público de consulta por protocolo',
     ],
     screenshots: [
-      'https://picsum.photos/seed/demandas1/800/450',
-      'https://picsum.photos/seed/demandas2/800/450',
-      'https://picsum.photos/seed/demandas3/800/450',
+      '/projects/demandas-icon.svg',
     ],
   },
   {
@@ -205,6 +235,8 @@ export const projects: Project[] = [
       'Sistema completo para gestão de clínicas odontológicas. Inclui cadastro de pacientes, avaliações com odontograma interativo (mapa dental visual), planejamento de tratamentos, agendamento e dashboard administrativo. Arquitetura limpa com camadas bem definidas.',
     techs: ['.NET 8', 'MongoDB', 'React', 'TypeScript', 'Tailwind', 'Vite'],
     github: 'https://github.com/carl0sR0ma0/OdontoSoft',
+    isPrivate: true,
+    isWeb: true,
     features: [
       'Odontograma interativo (mapa dental visual)',
       'Gestão de pacientes e prontuários',
@@ -213,10 +245,7 @@ export const projects: Project[] = [
       'Autenticação e controle de acesso',
       'Clean Architecture com camadas separadas',
     ],
-    screenshots: [
-      'https://picsum.photos/seed/odonto1/800/450',
-      'https://picsum.photos/seed/odonto2/800/450',
-    ],
+    screenshots: [],
   },
   {
     id: 'school-management',
@@ -226,15 +255,14 @@ export const projects: Project[] = [
       'Aplicação web para gerenciamento escolar que permite o cadastro e controle de alunos, professores e turmas. Interface administrativa para acompanhamento acadêmico com operações CRUD completas e relatórios.',
     techs: ['C#', '.NET', 'Entity Framework'],
     github: 'https://github.com/carl0sR0ma0/SchoolManagement',
+    isWeb: true,
     features: [
       'CRUD completo de alunos, professores e turmas',
       'Controle de matrículas e notas',
       'Relatórios acadêmicos',
       'Interface administrativa',
     ],
-    screenshots: [
-      'https://picsum.photos/seed/school1/800/450',
-    ],
+    screenshots: [],
   },
   {
     id: 'occurence-trigger',
@@ -244,15 +272,14 @@ export const projects: Project[] = [
       'Projeto que aplica o padrão de projeto Observer para o módulo de gatilhos de ocorrências. Demonstra a implementação prática de design patterns em C#/.NET, com foco em desacoplamento e reatividade a eventos do sistema.',
     techs: ['C#', '.NET', 'Observer Pattern'],
     github: 'https://github.com/carl0sR0ma0/OccurenceTrigger',
+    isWeb: true,
     features: [
       'Implementação do padrão Observer',
       'Sistema de gatilhos reativo a eventos',
       'Desacoplamento entre publicadores e assinantes',
       'Aplicação prática de Design Patterns',
     ],
-    screenshots: [
-      'https://picsum.photos/seed/observer1/800/450',
-    ],
+    screenshots: [],
   },
 ]
 
@@ -344,12 +371,22 @@ export const certifications: CertificationGroup[] = [
   },
 ]
 
-export const testimonial = {
-  quote:
-    'Romão é um colega de equipe confiável que sempre cumpre suas responsabilidades com excelência. Sua atitude proativa e capacidade de enfrentar desafios com um sorriso são verdadeiramente inspiradoras.',
-  author: 'Messias Oliveira',
-  role: 'Colega de equipe na Pentagro',
+export interface Testimonial {
+  quote: string
+  author: string
+  role: string
 }
+
+export const testimonials: Testimonial[] = [
+  {
+    quote:
+      'Romão é um colega de equipe confiável que sempre cumpre suas responsabilidades com excelência. Sua atitude proativa e capacidade de enfrentar desafios com um sorriso são verdadeiramente inspiradoras.',
+    author: 'Messias Oliveira',
+    role: 'Colega de equipe na Pentagro',
+  },
+]
+
+export const testimonial = testimonials[0]
 
 export const navLinks = [
   { href: '#sobre', label: 'Sobre' },

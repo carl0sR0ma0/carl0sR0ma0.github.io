@@ -4,6 +4,8 @@ import { useEffect, useCallback, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import type { Project } from '@/data/portfolio-data'
+import PhoneMockup from './PhoneMockup'
+import LaptopMockup from './LaptopMockup'
 
 interface ProjectModalProps {
   project: Project | null
@@ -13,6 +15,7 @@ interface ProjectModalProps {
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
   const [activeScreenshot, setActiveScreenshot] = useState(0)
   const [hasScreenshots, setHasScreenshots] = useState<boolean[]>([])
+  const [hasWebScreenshots, setHasWebScreenshots] = useState<boolean[]>([])
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -48,6 +51,29 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         }
         img.src = src
       })
+
+      const webSrcs = project.webScreenshots ?? []
+      const webChecks = webSrcs.map(() => false)
+      setHasWebScreenshots(webChecks)
+
+      webSrcs.forEach((src, i) => {
+        const img = new window.Image()
+        img.onload = () => {
+          setHasWebScreenshots((prev) => {
+            const next = [...prev]
+            next[i] = true
+            return next
+          })
+        }
+        img.onerror = () => {
+          setHasWebScreenshots((prev) => {
+            const next = [...prev]
+            next[i] = false
+            return next
+          })
+        }
+        img.src = src
+      })
     } else {
       document.body.style.overflow = ''
     }
@@ -58,6 +84,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
   }, [project, handleKeyDown])
 
   const availableScreenshots = project?.screenshots.filter((_, i) => hasScreenshots[i]) ?? []
+  const availableWebScreenshots = (project?.webScreenshots ?? []).filter((_, i) => hasWebScreenshots[i])
 
   return (
     <AnimatePresence>
@@ -83,7 +110,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
             {/* Close button */}
             <button
               onClick={onClose}
-              className="absolute right-3 top-3 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-white/5 text-text-secondary transition-colors hover:bg-white/10 hover:text-text-primary"
+              className="absolute right-3 top-3 z-10 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full bg-white/5 text-text-secondary transition-colors hover:bg-white/10 hover:text-text-primary"
               aria-label="Fechar"
             >
               <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
@@ -110,16 +137,30 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                 </p>
               </div>
 
-              {/* Screenshots */}
-              {availableScreenshots.length > 0 && (
+              {/* Device mockups / Screenshots */}
+              {project.isMobile && availableWebScreenshots.length > 0 ? (
+                <div className="mb-4 flex items-end justify-center gap-6 rounded-lg border border-white/5 bg-bg-card py-5 px-4">
+                  <LaptopMockup screenshots={availableWebScreenshots} alt={`${project.title} Web`} />
+                  <PhoneMockup screenshots={availableScreenshots} alt={project.title} />
+                </div>
+              ) : project.isMobile && availableScreenshots.length > 0 ? (
+                <div className="mb-4 flex items-center justify-center rounded-lg border border-white/5 bg-bg-card py-5">
+                  <PhoneMockup screenshots={availableScreenshots} alt={project.title} />
+                </div>
+              ) : project.isWeb ? (
+                <div className="mb-4 flex items-center justify-center rounded-lg border border-white/5 bg-bg-card py-5">
+                  <LaptopMockup screenshots={availableScreenshots} alt={project.title} />
+                </div>
+              ) : availableScreenshots.length > 0 ? (
                 <div className="mb-4">
                   <div className="overflow-hidden rounded-lg border border-white/5 bg-bg-card">
-                    <div className="relative aspect-video">
+                    <div className="relative flex items-center justify-center" style={{ minHeight: '180px', maxHeight: '280px' }}>
                       <Image
                         src={availableScreenshots[activeScreenshot] || availableScreenshots[0]}
                         alt={`${project.title} - Tela ${activeScreenshot + 1}`}
-                        fill
-                        className="object-contain"
+                        width={400}
+                        height={280}
+                        className="h-auto max-h-[280px] w-auto max-w-full object-contain p-4"
                       />
                     </div>
                   </div>
@@ -129,7 +170,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                         <button
                           key={i}
                           onClick={() => setActiveScreenshot(i)}
-                          className={`h-12 w-18 overflow-hidden rounded border-2 transition-all ${
+                          className={`h-12 w-18 cursor-pointer overflow-hidden rounded border-2 transition-all ${
                             activeScreenshot === i
                               ? 'border-accent-green'
                               : 'border-white/10 opacity-60 hover:opacity-100'
@@ -147,10 +188,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
                     </div>
                   )}
                 </div>
-              )}
-
-              {/* Placeholder when no screenshots */}
-              {availableScreenshots.length === 0 && (
+              ) : (
                 <div className="mb-4 flex aspect-video items-center justify-center rounded-lg border border-dashed border-white/10 bg-bg-card">
                   <div className="text-center">
                     <svg width="36" height="36" viewBox="0 0 24 24" fill="none" className="mx-auto mb-1 text-text-secondary/30">
@@ -194,24 +232,39 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               </div>
 
               {/* Actions */}
-              <div className="flex gap-2">
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 rounded-lg bg-gradient-to-r from-accent-green to-accent-purple px-5 py-2 text-xs font-semibold text-bg-primary transition-transform hover:scale-105"
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21.5c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z" />
-                  </svg>
-                  Ver no GitHub
-                </a>
-                <button
-                  onClick={onClose}
-                  className="rounded-lg border border-white/10 px-5 py-2 text-xs font-medium text-text-secondary transition-colors hover:border-white/20 hover:text-text-primary"
-                >
-                  Fechar
-                </button>
+              <div className="flex flex-wrap items-center gap-2">
+                {project.isPrivate ? (
+                  <>
+                    <span className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-xs text-text-secondary">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                        <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                        <path d="M7 11V7a5 5 0 0110 0v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                      </svg>
+                      Repositório Privado
+                    </span>
+                    <a
+                      href={`mailto:cvpromao@gmail.com?subject=Acesso ao projeto ${project.title}&body=Olá Carlos, gostaria de saber mais sobre o projeto ${project.title}.`}
+                      className="flex cursor-pointer items-center gap-2 rounded-lg bg-gradient-to-r from-accent-green to-accent-purple px-5 py-2 text-xs font-semibold text-bg-primary transition-transform hover:scale-105"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                        <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                      Solicitar Acesso
+                    </a>
+                  </>
+                ) : (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex cursor-pointer items-center gap-2 rounded-lg bg-gradient-to-r from-accent-green to-accent-purple px-5 py-2 text-xs font-semibold text-bg-primary transition-transform hover:scale-105"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21.5c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z" />
+                    </svg>
+                    Ver no GitHub
+                  </a>
+                )}
               </div>
             </div>
           </motion.div>

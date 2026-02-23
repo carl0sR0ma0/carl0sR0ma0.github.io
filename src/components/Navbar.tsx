@@ -43,8 +43,10 @@ export default function Navbar() {
       }`}
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="#" className="text-2xl font-bold">
-          <span className="gradient-text">{personalInfo.initials}</span>
+        <a href="#" className="flex items-center gap-1.5 font-mono text-sm font-bold">
+          <span className="text-accent-green">&lt;</span>
+          <span className="gradient-text">CR</span>
+          <span className="text-accent-purple">/&gt;</span>
         </a>
 
         {/* Desktop links */}

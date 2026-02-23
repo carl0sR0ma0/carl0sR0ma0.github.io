@@ -1,11 +1,43 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useState, type FormEvent } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { personalInfo } from '@/data/portfolio-data'
 import AnimatedSection from './AnimatedSection'
 import SectionTitle from './SectionTitle'
 
+type FormStatus = 'idle' | 'sending' | 'success' | 'error'
+
 export default function Contact() {
+  const [status, setStatus] = useState<FormStatus>('idle')
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    setStatus('sending')
+
+    const form = e.currentTarget
+    const data = new FormData(form)
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { Accept: 'application/json' },
+      })
+      if (res.ok) {
+        setStatus('success')
+        form.reset()
+        setTimeout(() => setStatus('idle'), 5000)
+      } else {
+        setStatus('error')
+        setTimeout(() => setStatus('idle'), 4000)
+      }
+    } catch {
+      setStatus('error')
+      setTimeout(() => setStatus('idle'), 4000)
+    }
+  }
+
   return (
     <section id="contato" className="bg-bg-secondary px-6 py-24">
       <div className="mx-auto max-w-4xl">
@@ -82,6 +114,7 @@ export default function Contact() {
             <form
               action="https://formspree.io/f/xykdpojb"
               method="POST"
+              onSubmit={handleSubmit}
               className="space-y-4"
             >
               <div>
@@ -93,7 +126,8 @@ export default function Contact() {
                   id="name"
                   name="name"
                   required
-                  className="w-full rounded-lg border border-white/10 bg-bg-card px-4 py-3 text-text-primary outline-none transition-colors focus:border-accent-green/50 placeholder:text-text-secondary/40"
+                  disabled={status === 'sending'}
+                  className="w-full rounded-lg border border-white/10 bg-bg-card px-4 py-3 text-text-primary outline-none transition-colors focus:border-accent-green/50 placeholder:text-text-secondary/40 disabled:opacity-50"
                   placeholder="Seu nome"
                 />
               </div>
@@ -106,7 +140,8 @@ export default function Contact() {
                   id="email"
                   name="email"
                   required
-                  className="w-full rounded-lg border border-white/10 bg-bg-card px-4 py-3 text-text-primary outline-none transition-colors focus:border-accent-green/50 placeholder:text-text-secondary/40"
+                  disabled={status === 'sending'}
+                  className="w-full rounded-lg border border-white/10 bg-bg-card px-4 py-3 text-text-primary outline-none transition-colors focus:border-accent-green/50 placeholder:text-text-secondary/40 disabled:opacity-50"
                   placeholder="seu@email.com"
                 />
               </div>
@@ -119,18 +154,60 @@ export default function Contact() {
                   name="message"
                   rows={4}
                   required
-                  className="w-full resize-none rounded-lg border border-white/10 bg-bg-card px-4 py-3 text-text-primary outline-none transition-colors focus:border-accent-green/50 placeholder:text-text-secondary/40"
+                  disabled={status === 'sending'}
+                  className="w-full resize-none rounded-lg border border-white/10 bg-bg-card px-4 py-3 text-text-primary outline-none transition-colors focus:border-accent-green/50 placeholder:text-text-secondary/40 disabled:opacity-50"
                   placeholder="Sua mensagem..."
                 />
               </div>
               <motion.button
                 type="submit"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full rounded-lg bg-gradient-to-r from-accent-green to-accent-purple px-6 py-3 font-semibold text-bg-primary transition-shadow hover:shadow-lg hover:shadow-accent-green/20"
+                disabled={status === 'sending'}
+                whileHover={status === 'idle' ? { scale: 1.02 } : {}}
+                whileTap={status === 'idle' ? { scale: 0.98 } : {}}
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-accent-green to-accent-purple px-6 py-3 font-semibold text-bg-primary transition-shadow hover:shadow-lg hover:shadow-accent-green/20 disabled:opacity-70"
               >
-                Enviar Mensagem
+                {status === 'sending' ? (
+                  <>
+                    <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" className="opacity-25" />
+                      <path d="M4 12a8 8 0 018-8" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="opacity-75" />
+                    </svg>
+                    Enviando...
+                  </>
+                ) : (
+                  'Enviar Mensagem'
+                )}
               </motion.button>
+
+              <AnimatePresence>
+                {status === 'success' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    className="flex items-center gap-2 rounded-lg border border-accent-green/20 bg-accent-green/5 px-4 py-3 text-sm text-accent-green"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      <path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    Mensagem enviada com sucesso!
+                  </motion.div>
+                )}
+                {status === 'error' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    className="flex items-center gap-2 rounded-lg border border-red-500/20 bg-red-500/5 px-4 py-3 text-sm text-red-400"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+                      <path d="M15 9l-6 6M9 9l6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                    Erro ao enviar. Tente novamente.
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </form>
           </AnimatedSection>
         </div>

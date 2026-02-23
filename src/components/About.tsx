@@ -1,8 +1,47 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
+import { useInView } from 'framer-motion'
 import { aboutText, highlights } from '@/data/portfolio-data'
 import AnimatedSection from './AnimatedSection'
 import SectionTitle from './SectionTitle'
+import GitHubStats from './GitHubStats'
+
+function AnimatedValue({ value }: { value: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
+  const [display, setDisplay] = useState('0')
+
+  useEffect(() => {
+    if (!isInView) return
+
+    const numMatch = value.match(/^(\d+)(.*)$/)
+    if (!numMatch) {
+      setDisplay(value)
+      return
+    }
+
+    const target = parseInt(numMatch[1])
+    const suffix = numMatch[2]
+    const duration = 1500
+    const steps = 40
+    const stepTime = duration / steps
+
+    let current = 0
+    const interval = setInterval(() => {
+      current++
+      const progress = current / steps
+      const eased = 1 - Math.pow(1 - progress, 3)
+      const val = Math.round(target * eased)
+      setDisplay(`${val}${suffix}`)
+      if (current >= steps) clearInterval(interval)
+    }, stepTime)
+
+    return () => clearInterval(interval)
+  }, [isInView, value])
+
+  return <div ref={ref}>{display}</div>
+}
 
 export default function About() {
   return (
@@ -37,7 +76,7 @@ export default function About() {
                   className="rounded-xl border border-white/5 bg-bg-card p-6 text-center transition-all hover:border-accent-green/20 hover:glow-green"
                 >
                   <div className="mb-2 text-3xl font-bold gradient-text">
-                    {item.value}
+                    <AnimatedValue value={item.value} />
                   </div>
                   <div className="text-sm text-text-secondary">
                     {item.label}
@@ -45,6 +84,7 @@ export default function About() {
                 </div>
               ))}
             </div>
+            <GitHubStats />
           </AnimatedSection>
         </div>
       </div>
